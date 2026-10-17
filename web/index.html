@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FeastFlow Analytics — Big Data Food Delivery Intelligence Engine</title>
+  <meta name="description" content="End-to-end big data food delivery analytics pipeline utilizing HDFS, Apache Pig, MapReduce, Apache Hive, Apache Spark, and Spark MLlib.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>">
+</head>
+<body>
+
+  <!-- Top Sticky Navigation Bar -->
+  <header>
+    <div class="nav-container">
+      <div class="brand-wrapper">
+        <div class="brand-logo">🍔</div>
+        <div>
+          <h1 class="brand-title">
+            FeastFlow
+            <span class="brand-badge">Big Data Engine v2.0</span>
+          </h1>
+        </div>
+      </div>
+
+      <div class="header-status">
+        <div class="status-pill">
+          <span class="pulse-dot"></span>
+          <span>Cluster: Online</span>
+        </div>
+        <div class="quick-meta">
+          <span>Dataset: <strong id="header-dataset-text">45,593 Orders</strong> (Real Kaggle Ingestion)</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Interactive Navigation Tabs -->
+  <nav class="tabs-nav" aria-label="Main Navigation">
+    <button class="tab-btn active" data-tab="tab-ingest" id="btn-tab-ingest">
+      <span>📤</span> Dataset Ingestion & Live Pipeline
+    </button>
+    <button class="tab-btn" data-tab="tab-overview" id="btn-tab-overview">
+      <span>📊</span> Overview & KPIs
+    </button>
+    <button class="tab-btn" data-tab="tab-architecture" id="btn-tab-architecture">
+      <span>🏗️</span> Architecture & Pipeline
+    </button>
+    <button class="tab-btn" data-tab="tab-gallery" id="btn-tab-gallery">
+      <span>📈</span> Visual Analytics (10 Charts)
+    </button>
+    <button class="tab-btn" data-tab="tab-simulator" id="btn-tab-simulator">
+      <span>🤖</span> ML Prediction Studio
+    </button>
+    <button class="tab-btn" data-tab="tab-segmentation" id="btn-tab-segmentation">
+      <span>👥</span> Customer Segmentation
+    </button>
+    <button class="tab-btn" data-tab="tab-catalog" id="btn-tab-catalog">
+      <span>📑</span> Data Catalog & Schema
+    </button>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main>
+
+    <!-- ============================================================
+         TAB 0: Dataset Ingestion & Live Pipeline Runner
+         ============================================================ -->
+    <section id="tab-ingest" class="tab-content active">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">📤 Real Kaggle Dataset Ingestion & Real-Time Pipeline Engine</h2>
+          <p class="section-subtitle">Upload any Kaggle food delivery dataset CSV or load one of the 3 pre-packaged real benchmark datasets to execute the full 8-phase Big Data pipeline live.</p>
+        </div>
+      </div>
+
+      <!-- Ingestion & Pre-Packaged Grid -->
+      <div class="ingest-grid">
+        <!-- Upload Custom Kaggle Dataset -->
+        <div class="upload-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-family:var(--font-display); font-size:1.1rem; color:#f8fafc; display:flex; align-items:center; gap:0.5rem;">
+              <span>📁</span> Upload Custom Kaggle Dataset
+            </h3>
+            <span style="font-size:0.75rem; background:rgba(56,189,248,0.15); color:#38bdf8; padding:0.2rem 0.6rem; border-radius:20px; font-weight:600;">Kaggle Schema</span>
+          </div>
+
+          <div class="dropzone-box" id="dropzone">
+            <input type="file" id="file-input" accept=".csv" style="display:none;">
+            <div class="dropzone-icon">📥</div>
+            <div class="dropzone-title">Drag & Drop Kaggle CSV File Here</div>
+            <div class="dropzone-desc">Supports Kaggle Food Delivery dataset format (or pre-processed CSV)</div>
+            <button type="button" class="file-browse-btn" id="browse-btn">Browse Computer</button>
+          </div>
+
+          <div class="file-preview-pill" id="file-preview" style="display:none;">
+            <div style="display:flex; align-items:center; gap:0.6rem;">
+              <span style="font-size:1.2rem;">📄</span>
+              <div>
+                <strong id="preview-filename" style="color:#f8fafc;">dataset.csv</strong>
+                <div id="preview-filesize" style="font-size:0.75rem; color:var(--text-muted);">0 KB</div>
+              </div>
+            </div>
+            <button type="button" id="remove-file-btn" style="background:none; border:none; color:#f87171; cursor:pointer; font-size:1.1rem;">✕</button>
+          </div>
+
+          <button class="run-btn" id="upload-run-btn" style="width:100%; justify-content:center; padding:0.85rem;" disabled>
+            <span>⚡</span> Ingest & Execute Full 8-Phase Pipeline
+          </button>
+        </div>
+
+        <!-- 3 Ready-to-Test Real Datasets -->
+        <div class="sample-presets-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-family:var(--font-display); font-size:1.1rem; color:#f8fafc; display:flex; align-items:center; gap:0.5rem;">
+              <span>🧪</span> Pre-Packaged Real Benchmark Datasets
+            </h3>
+            <span style="font-size:0.75rem; background:rgba(16,185,129,0.15); color:#34d399; padding:0.2rem 0.6rem; border-radius:20px; font-weight:600;">Ready to Test</span>
+          </div>
+
+          <!-- Flagship Swiggy & Zomato Big Data (120,000+ Orders) -->
+          <div class="sample-preset-item" style="border: 1px solid rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.05);">
+            <div class="sample-item-header">
+              <span class="sample-title" style="color: #fbbf24;">🔥 Flagship: Swiggy & Zomato (120k+ Orders)</span>
+              <span class="sample-badge" style="background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid #f59e0b;">1.2 Lakh Orders</span>
+            </div>
+            <div class="sample-desc">
+              <strong>120,000 orders</strong> across 10 top Indian metros (Bangalore, Mumbai, Delhi, Hyderabad, Pune, etc.) across 20 authentic cuisines.
+            </div>
+            <div class="sample-actions">
+              <button class="btn-load-sample" data-sample="swiggy_zomato_120k_orders.csv" style="background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);">
+                <span>▶</span> Load & Run 120,000 Records
+              </button>
+              <a href="/download/test-dataset/swiggy_zomato_120k_orders.csv" class="btn-download-sample" title="Download CSV">
+                <span>⬇️</span> CSV (19.1 MB)
+              </a>
+            </div>
+          </div>
+
+          <!-- Dataset 1 -->
+          <div class="sample-preset-item">
+            <div class="sample-item-header">
+              <span class="sample-title">🚀 Dataset 1: Metro Rush Hours</span>
+              <span class="sample-badge badge-demand">High Demand</span>
+            </div>
+            <div class="sample-desc">
+              <strong>9,811 orders</strong> from Bangalore, Mumbai, Delhi, and Jaipur during lunch & dinner surges with dense courier concentration.
+            </div>
+            <div class="sample-actions">
+              <button class="btn-load-sample" data-sample="dataset_1_metro_rush.csv">
+                <span>▶</span> Load & Run Dataset 1
+              </button>
+              <a href="/download/test-dataset/dataset_1_metro_rush.csv" class="btn-download-sample" title="Download CSV">
+                <span>⬇️</span> CSV (1.6 MB)
+              </a>
+            </div>
+          </div>
+
+          <!-- Dataset 2 -->
+          <div class="sample-preset-item">
+            <div class="sample-item-header">
+              <span class="sample-title">⛈️ Dataset 2: Storm & Traffic Surge</span>
+              <span class="sample-badge badge-delay">Severe Delay</span>
+            </div>
+            <div class="sample-desc">
+              <strong>31,883 orders</strong> filtered for Stormy, Foggy, and Windy weather conditions paired with heavy road Jam bottlenecks.
+            </div>
+            <div class="sample-actions">
+              <button class="btn-load-sample" data-sample="dataset_2_storm_weather.csv">
+                <span>▶</span> Load & Run Dataset 2
+              </button>
+              <a href="/download/test-dataset/dataset_2_storm_weather.csv" class="btn-download-sample" title="Download CSV">
+                <span>⬇️</span> CSV (5.2 MB)
+              </a>
+            </div>
+          </div>
+
+          <!-- Dataset 3 -->
+          <div class="sample-preset-item">
+            <div class="sample-item-header">
+              <span class="sample-title">⚡ Dataset 3: Quick Stratified Sample</span>
+              <span class="sample-badge badge-fast">Fast Test</span>
+            </div>
+            <div class="sample-desc">
+              <strong>5,000 real orders</strong> uniformly sampled across all 22 cities. Runs all 8 Big Data phases in ~10 seconds.
+            </div>
+            <div class="sample-actions">
+              <button class="btn-load-sample" data-sample="dataset_3_quick_5k.csv">
+                <span>▶</span> Load & Run Dataset 3
+              </button>
+              <a href="/download/test-dataset/dataset_3_quick_5k.csv" class="btn-download-sample" title="Download CSV">
+                <span>⬇️</span> CSV (0.8 MB)
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Execution Stepper Tracker -->
+      <div class="pipeline-stepper" id="pipeline-stepper">
+        <div class="step-node" id="step-node-1"><div class="step-circle">1</div><span>Ingestion</span></div>
+        <div class="step-line"></div>
+        <div class="step-node" id="step-node-2"><div class="step-circle">2</div><span>HDFS</span></div>
+        <div class="step-line"></div>
+        <div class="step-node" id="step-node-3"><div class="step-circle">3</div><span>Pig ETL</span></div>
+        <div class="step-line"></div>
+        <div class="step-node" id="step-node-4"><div class="step-circle">4</div><span>MapReduce</span></div>
+        <div class="step-line"></div>
+        <div class="step-node" id="step-node-5"><div class="step-circle">5</div><span>Hive</span></div>
+        <div class="step-line"></div>
+        <div class="step-node" id="step-node-6"><div class="step-circle">6</div><span>Spark</span></div>
+        <div class="step-line"></div>
+        <div class="step-node" id="step-node-7"><div class="step-circle">7</div><span>MLlib</span></div>
+        <div class="step-line"></div>
+        <div class="step-node" id="step-node-8"><div class="step-circle">8</div><span>Visuals</span></div>
+      </div>
+
+      <!-- Real-Time Terminal Console -->
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <div class="term-dots">
+            <span class="term-dot term-red"></span>
+            <span class="term-dot term-yellow"></span>
+            <span class="term-dot term-green"></span>
+          </div>
+          <span class="term-title">FeastFlow Big Data Real-Time Execution Console</span>
+          <span id="term-status" style="font-family: var(--font-mono); font-size: 0.75rem; color: #34d399;">● READY</span>
+        </div>
+
+        <div class="terminal-body" id="ingest-terminal-body">
+          <div class="log-line log-muted">FeastFlow Ingestion Console initialized.</div>
+          <div class="log-line log-cyan">Active Dataset: 45,593 Genuine Kaggle Food Delivery Records.</div>
+          <div class="log-line log-muted">Drop a new Kaggle CSV above or click any of the 3 Benchmark Datasets to stream live execution.</div>
+        </div>
+
+        <div class="terminal-controls">
+          <div style="font-size: 0.82rem; color: var(--text-muted);">
+            Engine: <code>HDFS ➔ Pig Latin ➔ MapReduce ➔ Hive ORC ➔ Spark MLlib ➔ Seaborn</code>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <button class="filter-btn" id="clear-ingest-term-btn">Clear Logs</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 1: Executive Overview & KPIs
+         ============================================================ -->
+    <section id="tab-overview" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">📊 Executive Dashboard & Core KPIs</h2>
+          <p class="section-subtitle">Real-time aggregate intelligence extracted from multi-tier Big Data processing pipeline.</p>
+        </div>
+      </div>
+
+      <!-- Core Metrics Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card" style="--card-accent: #06b6d4;">
+          <div class="kpi-header">
+            <span class="kpi-title">Total Orders</span>
+            <span class="kpi-icon">📦</span>
+          </div>
+          <div class="kpi-value" id="kpi-orders">45,593</div>
+          <div class="kpi-meta" id="kpi-orders-meta"><span class="trend-up">↑ 100% processed</span> across 22 metro hubs</div>
+        </div>
+
+        <div class="kpi-card" style="--card-accent: #10b981;">
+          <div class="kpi-header">
+            <span class="kpi-title">Net Revenue (GMV)</span>
+            <span class="kpi-icon">💰</span>
+          </div>
+          <div class="kpi-value" id="kpi-revenue">₹1.88 Cr</div>
+          <div class="kpi-meta" id="kpi-revenue-meta">Avg Order Value: <strong>₹423.55</strong></div>
+        </div>
+
+        <div class="kpi-card" style="--card-accent: #f59e0b;">
+          <div class="kpi-header">
+            <span class="kpi-title">Avg Delivery Time</span>
+            <span class="kpi-icon">⏱️</span>
+          </div>
+          <div class="kpi-value" id="kpi-avg-time">26.3 min</div>
+          <div class="kpi-meta" id="kpi-delay-meta"><span class="trend-alert">Delay rate: 25.1%</span></div>
+        </div>
+
+        <div class="kpi-card" style="--card-accent: #8b5cf6;">
+          <div class="kpi-header">
+            <span class="kpi-title">Delivery Success Rate</span>
+            <span class="kpi-icon">✅</span>
+          </div>
+          <div class="kpi-value" id="kpi-success-rate">97.7%</div>
+          <div class="kpi-meta" id="kpi-success-meta">44,538 Delivered | 1,055 Cancelled</div>
+        </div>
+
+        <div class="kpi-card" style="--card-accent: #ec4899;">
+          <div class="kpi-header">
+            <span class="kpi-title">Top Grossing Cuisine</span>
+            <span class="kpi-icon">🍲</span>
+          </div>
+          <div class="kpi-value" id="kpi-top-cuisine">Desserts</div>
+          <div class="kpi-meta" id="kpi-cuisine-meta">₹27.98 L total revenue across 6,589 orders</div>
+        </div>
+
+        <div class="kpi-card" style="--card-accent: #38bdf8;">
+          <div class="kpi-header">
+            <span class="kpi-title">ML Predictive Accuracy</span>
+            <span class="kpi-icon">🎯</span>
+          </div>
+          <div class="kpi-value">0.84 AUC</div>
+          <div class="kpi-meta">Random Forest Delay Classifier (76.1% Acc)</div>
+        </div>
+      </div>
+
+      <!-- Quick Highlights Grid -->
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+        <div class="sim-card">
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 1rem; color: #38bdf8;">🔥 Peak Hour Surges</h3>
+          <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1rem;">
+            Analysis proves demand spikes sharply at <strong>12:00 - 14:00 (Lunch)</strong> and <strong>19:00 - 21:00 (Dinner)</strong>. Evening dinner peak experiences highest traffic delay multipliers (up to 76.5% delay rate).
+          </p>
+          <div id="peak-hours-breakdown" style="background: rgba(10,14,23,0.8); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 1rem;">
+            <div class="breakdown-row"><span>Loading real-time peak hours...</span><strong>...</strong></div>
+          </div>
+        </div>
+
+        <div class="sim-card">
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 1rem; color: #10b981;">🏆 Top Cities by Performance</h3>
+          <p style="color: var(--text-secondary); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1rem;">
+            Order volumes and delivery reliability distributed across top metropolitan hubs in India:
+          </p>
+          <div id="top-cities-breakdown" style="background: rgba(10,14,23,0.8); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 1rem;">
+            <div class="breakdown-row"><span>Loading real-time city metrics...</span><strong>...</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 2: Big Data Architecture & Pipeline
+         ============================================================ -->
+    <section id="tab-architecture" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">🏗️ End-to-End Big Data Architecture</h2>
+          <p class="section-subtitle">Click any pipeline component to inspect its dataflow transformations, commands, and schema evolution.</p>
+        </div>
+      </div>
+
+      <div class="pipeline-flow-wrapper">
+        <div class="pipeline-steps">
+          <div class="pipeline-step active" data-stage="ingest">
+            <span class="step-num">01</span>
+            <span class="step-icon">⚡</span>
+            <div class="step-name">Ingestion</div>
+            <span class="step-tech">Python Faker</span>
+            <div class="step-desc">2M synthetic streams with planted delay spikes</div>
+          </div>
+
+          <div class="pipeline-step" data-stage="hdfs">
+            <span class="step-num">02</span>
+            <span class="step-icon">🗄️</span>
+            <div class="step-name">HDFS Storage</div>
+            <span class="step-tech">Hadoop 3.2</span>
+            <div class="step-desc">Distributed Data Lake with 3x fault tolerance</div>
+          </div>
+
+          <div class="pipeline-step" data-stage="pig">
+            <span class="step-num">03</span>
+            <span class="step-icon">🐷</span>
+            <div class="step-name">Pig ETL</div>
+            <span class="step-tech">Pig Latin</span>
+            <div class="step-desc">Schema validation & 5 derived business metrics</div>
+          </div>
+
+          <div class="pipeline-step" data-stage="mapreduce">
+            <span class="step-num">04</span>
+            <span class="step-icon">⚙️</span>
+            <div class="step-name">MapReduce</div>
+            <span class="step-tech">Java & Python</span>
+            <div class="step-desc">Multi-key revenue & hourly speed aggregates</div>
+          </div>
+
+          <div class="pipeline-step" data-stage="hive">
+            <span class="step-num">05</span>
+            <span class="step-icon">🐝</span>
+            <div class="step-name">Hive Warehouse</div>
+            <span class="step-tech">Hive HQL / ORC</span>
+            <div class="step-desc">Partitioned & bucketed columnar warehouse</div>
+          </div>
+
+          <div class="pipeline-step" data-stage="spark">
+            <span class="step-num">06</span>
+            <span class="step-icon">🔥</span>
+            <div class="step-name">Spark Engine</div>
+            <span class="step-tech">PySpark Catalyst</span>
+            <div class="step-desc">In-memory analytics & feature vectorization</div>
+          </div>
+
+          <div class="pipeline-step" data-stage="mllib">
+            <span class="step-num">07</span>
+            <span class="step-icon">🧠</span>
+            <div class="step-name">Spark MLlib</div>
+            <span class="step-tech">ML Pipeline</span>
+            <div class="step-desc">Regression, Delay Classifier, K-Means & ALS</div>
+          </div>
+
+          <div class="pipeline-step" data-stage="viz">
+            <span class="step-num">08</span>
+            <span class="step-icon">📊</span>
+            <div class="step-name">Visualization</div>
+            <span class="step-tech">Seaborn / UI</span>
+            <div class="step-desc">10 publication dashboards & live demo web app</div>
+          </div>
+        </div>
+
+        <!-- Dynamic Inspector Pane -->
+        <div class="pipeline-inspector">
+          <div class="inspector-pane">
+            <h4 id="inspector-title">Phase 1: Ingestion & Storage (Synthetic Data Generator)</h4>
+            <p id="inspector-role" style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+              Generates high-volume, realistic food delivery transactions simulating peak-hour surges, weather disruptions, traffic bottlenecks, and multi-city delivery networks.
+            </p>
+            <div style="margin-bottom: 0.5rem; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Execution Command:</div>
+            <div class="code-snippet" id="inspector-cmd">python data/generate_data.py --rows 2000000 --output data/food_delivery_data.csv
+hdfs dfs -put -f data/food_delivery_data.csv /fooddelivery/raw/</div>
+          </div>
+
+          <div class="inspector-pane">
+            <h4>📋 Technical Schema & Transformations</h4>
+            <div style="font-size: 0.85rem; color: #38bdf8; font-family: var(--font-mono); margin-bottom: 0.5rem;" id="inspector-tech">Python Faker + NumPy + HDFS CLI</div>
+            <div class="code-snippet" id="inspector-schema">Raw CSV (23 Columns):
+order_id, customer_id, restaurant_id, cuisine, city, area,
+order_time, delivery_time, delivery_duration_min, distance_km,
+order_value, discount, payment_method, delivery_partner_id,
+partner_rating, weather, traffic_level, status, customer_rating,
+order_hour, order_day_of_week, is_weekend, is_delayed</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 3: Visual Analytics (10 Charts Gallery)
+         ============================================================ -->
+    <section id="tab-gallery" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">📈 Visual Analytics Gallery (10 Dashboards)</h2>
+          <p class="section-subtitle">Click any chart card to view high-resolution render, data breakdown, and analytical takeaways.</p>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="gallery-filters">
+        <button class="filter-btn active" data-filter="all">All Charts (10)</button>
+        <button class="filter-btn" data-filter="temporal">Temporal & Peaks</button>
+        <button class="filter-btn" data-filter="revenue">Financial & Cuisine</button>
+        <button class="filter-btn" data-filter="operations">Operations & Weather</button>
+        <button class="filter-btn" data-filter="mllib">Machine Learning</button>
+        <button class="filter-btn" data-filter="performance">Benchmarking</button>
+      </div>
+
+      <!-- Charts Grid -->
+      <div class="charts-grid" id="charts-grid">
+        <!-- Rendered via app.js -->
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 4: Interactive ML Prediction Simulator
+         ============================================================ -->
+    <section id="tab-simulator" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">🤖 Live ML Delivery Time & Delay Predictor</h2>
+          <p class="section-subtitle">Trained using Spark MLlib Random Forest Regression and Classification models on delivery history.</p>
+        </div>
+      </div>
+
+      <div class="simulator-layout">
+        <!-- Left: Input Controls -->
+        <div class="sim-card">
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: #38bdf8; margin-bottom: 1.25rem;">
+            ⚙️ Order Simulation Parameters
+          </h3>
+
+          <div class="sim-form-group">
+            <div class="sim-label">
+              <span>Delivery Distance</span>
+              <span class="sim-val-badge" id="sim-dist-val">4.5 km</span>
+            </div>
+            <input type="range" class="sim-range" id="sim-dist" min="0.5" max="25" step="0.5" value="4.5">
+          </div>
+
+          <div class="sim-form-group">
+            <div class="sim-label">
+              <span>Time of Order (Hour of Day)</span>
+              <span class="sim-val-badge" id="sim-hour-val">19:00</span>
+            </div>
+            <input type="range" class="sim-range" id="sim-hour" min="0" max="23" step="1" value="19">
+          </div>
+
+          <div class="sim-form-group">
+            <div class="sim-label">
+              <span>Order Basket Value</span>
+              <span class="sim-val-badge" id="sim-value-val">₹650</span>
+            </div>
+            <input type="range" class="sim-range" id="sim-value" min="100" max="3000" step="50" value="650">
+          </div>
+
+          <div class="sim-form-group">
+            <div class="sim-label">
+              <span>Weather Conditions</span>
+            </div>
+            <select class="sim-select" id="sim-weather">
+              <option value="Clear">☀️ Clear / Sunny</option>
+              <option value="Windy">💨 Windy</option>
+              <option value="Foggy">🌫️ Foggy</option>
+              <option value="Rainy" selected>🌧️ Heavy Rain</option>
+            </select>
+          </div>
+
+          <div class="sim-form-group">
+            <div class="sim-label">
+              <span>Traffic Level</span>
+            </div>
+            <select class="sim-select" id="sim-traffic">
+              <option value="Low">🟢 Low Traffic</option>
+              <option value="Medium">🟡 Medium Traffic</option>
+              <option value="High" selected>🟠 High Traffic</option>
+              <option value="Jam">🔴 Gridlock / Jam</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Right: Prediction Output Gauge -->
+        <div class="sim-card">
+          <div class="prediction-result-panel">
+            <div class="pred-gauge">
+              <div class="pred-number" id="pred-time">52</div>
+              <div class="pred-unit">Estimated Minutes</div>
+            </div>
+
+            <div class="pred-risk-badge risk-high" id="pred-risk">
+              ⚠️ High Delay Risk (>45 min)
+            </div>
+
+            <div class="pred-breakdown">
+              <div class="breakdown-row">
+                <span>Base Kitchen Prep & Dispatch:</span>
+                <strong id="bd-base">22.0 min</strong>
+              </div>
+              <div class="breakdown-row">
+                <span>Distance Transit Time:</span>
+                <strong id="bd-dist">+10.8 min</strong>
+              </div>
+              <div class="breakdown-row">
+                <span>Weather Friction (Rainy):</span>
+                <strong id="bd-weather">+13.5 min</strong>
+              </div>
+              <div class="breakdown-row">
+                <span>Traffic Bottleneck (High):</span>
+                <strong id="bd-traffic">+9.0 min</strong>
+              </div>
+              <div class="breakdown-row">
+                <span>Peak Hour Surge Factor:</span>
+                <strong id="bd-hour">+8.0 min (Peak Surge)</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 5: Customer Segmentation Studio
+         ============================================================ -->
+    <section id="tab-segmentation" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">👥 Customer Segmentation Studio (K-Means k=4)</h2>
+          <p class="section-subtitle">Discovered behavioral clusters using normalized RFM metrics and Silhouette coefficient evaluation.</p>
+        </div>
+      </div>
+
+      <div class="segments-grid">
+        <!-- Segment 1 -->
+        <div class="segment-card">
+          <div class="segment-header">
+            <div class="segment-icon-box">🏆</div>
+            <div>
+              <h3 class="segment-title">Loyal Foodies</h3>
+              <span class="segment-tag">Cluster 1 • High LTV</span>
+            </div>
+          </div>
+          <div class="segment-stats">
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Avg Orders</div>
+              <div class="seg-stat-val">12.4 / mo</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Monthly Spend</div>
+              <div class="seg-stat-val">₹9,850</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Discount Rate</div>
+              <div class="seg-stat-val">18% (Low)</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Avg Rating</div>
+              <div class="seg-stat-val">4.6 ★</div>
+            </div>
+          </div>
+          <div class="segment-recommendation">
+            💡 Strategy: Enroll in VIP premium subscription with priority courier dispatch and exclusive chef specials.
+          </div>
+        </div>
+
+        <!-- Segment 2 -->
+        <div class="segment-card">
+          <div class="segment-header">
+            <div class="segment-icon-box">🎉</div>
+            <div>
+              <h3 class="segment-title">Weekend Splurgers</h3>
+              <span class="segment-tag">Cluster 2 • High Basket</span>
+            </div>
+          </div>
+          <div class="segment-stats">
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Avg Orders</div>
+              <div class="seg-stat-val">4.2 / mo</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Monthly Spend</div>
+              <div class="seg-stat-val">₹6,200</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Avg Basket</div>
+              <div class="seg-stat-val">₹1,470</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Timing</div>
+              <div class="seg-stat-val">Fri - Sun</div>
+            </div>
+          </div>
+          <div class="segment-recommendation">
+            💡 Strategy: Push multi-course family meals and party beverage bundles on Friday evenings.
+          </div>
+        </div>
+
+        <!-- Segment 3 -->
+        <div class="segment-card">
+          <div class="segment-header">
+            <div class="segment-icon-box">🏷️</div>
+            <div>
+              <h3 class="segment-title">Deal Seekers</h3>
+              <span class="segment-tag">Cluster 3 • Price Sensitive</span>
+            </div>
+          </div>
+          <div class="segment-stats">
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Avg Orders</div>
+              <div class="seg-stat-val">7.8 / mo</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Monthly Spend</div>
+              <div class="seg-stat-val">₹3,400</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Discount Rate</div>
+              <div class="seg-stat-val">84% (High)</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Payment</div>
+              <div class="seg-stat-val">UPI / Promo</div>
+            </div>
+          </div>
+          <div class="segment-recommendation">
+            💡 Strategy: Deliver coupon notifications for off-peak afternoon meal deals to improve kitchen utilization.
+          </div>
+        </div>
+
+        <!-- Segment 4 -->
+        <div class="segment-card">
+          <div class="segment-header">
+            <div class="segment-icon-box">⏳</div>
+            <div>
+              <h3 class="segment-title">Occasional Diners</h3>
+              <span class="segment-tag">Cluster 4 • Churn Risk</span>
+            </div>
+          </div>
+          <div class="segment-stats">
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Avg Orders</div>
+              <div class="seg-stat-val">1.2 / mo</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Monthly Spend</div>
+              <div class="seg-stat-val">₹650</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Cancellation</div>
+              <div class="seg-stat-val">9.4% (Elevated)</div>
+            </div>
+            <div class="seg-stat-box">
+              <div class="seg-stat-label">Avg Rating</div>
+              <div class="seg-stat-val">3.8 ★</div>
+            </div>
+          </div>
+          <div class="segment-recommendation">
+            💡 Strategy: Re-engagement campaigns featuring "We Miss You" free delivery credits on top-rated neighborhood restaurants.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 6: Pipeline Console Runner (Interactive Terminal)
+         ============================================================ -->
+    <section id="tab-console" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">⚡ Interactive Big Data Pipeline Runner</h2>
+          <p class="section-subtitle">Simulate real-time end-to-end execution across HDFS, Pig, MapReduce, Hive, Spark, and MLlib.</p>
+        </div>
+      </div>
+
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <div class="term-dots">
+            <span class="term-dot term-red"></span>
+            <span class="term-dot term-yellow"></span>
+            <span class="term-dot term-green"></span>
+          </div>
+          <span class="term-title">bash — feastflow@bigdata-cluster: ~/pipeline</span>
+          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #34d399;">● READY</span>
+        </div>
+
+        <div class="terminal-body" id="terminal-body">
+          <div class="log-line log-muted">Welcome to FeastFlow Pipeline Execution Console.</div>
+          <div class="log-line log-muted">Cluster nodes: NameNode:9000, DataNode:9864, SparkMaster:7077, HiveMetastore:9083.</div>
+          <div class="log-line log-cyan">Click "Execute Pipeline Demo" below to stream full end-to-end execution.</div>
+        </div>
+
+        <div class="terminal-controls">
+          <div style="font-size: 0.82rem; color: var(--text-muted);">
+            Pipeline Script: <code>scripts/run_pipeline.ps1 -Phase all</code>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <button class="filter-btn" id="clear-term-btn">Clear Output</button>
+            <button class="run-btn" id="run-pipeline-btn">
+              <span>▶</span> Execute Pipeline Demo
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB 7: Data Catalog & Schema Inspector
+         ============================================================ -->
+    <section id="tab-catalog" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">📑 Enterprise Data Catalog & Schema</h2>
+          <p class="section-subtitle">Explore live cleaned records and verify the Pig-cleaned 28-column schema structure.</p>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-toolbar">
+          <input type="text" class="search-input" id="catalog-search" placeholder="🔍 Search by Order ID, Cuisine, City, Weather...">
+          <div style="font-size: 0.85rem; color: var(--text-secondary);">
+            Showing Live Sample Records (Pig Clean Schema)
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>City (Area)</th>
+                <th>Cuisine</th>
+                <th>Order (Discount)</th>
+                <th>Net Revenue</th>
+                <th>Distance</th>
+                <th>Duration</th>
+                <th>Delay Status</th>
+                <th>Weather</th>
+                <th>Final Status</th>
+              </tr>
+            </thead>
+            <tbody id="catalog-body">
+              <!-- Populated by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- High-Res Chart Modal Viewer -->
+  <div class="modal-overlay" id="chart-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <h3 id="modal-title">Chart Title</h3>
+          <p id="modal-meta">Category</p>
+        </div>
+        <button class="modal-close-btn" id="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <img class="modal-img" id="modal-img" src="" alt="Full Chart Zoom">
+        <div class="modal-analysis-card">
+          <h4>💡 Analytical Findings & Business Takeaway</h4>
+          <p id="modal-insight">Insight description text goes here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Footer -->
+  <footer>
+    <p>🍔 <strong>FeastFlow Analytics</strong> — End-to-End Big Data Engineering & Predictive Intelligence Pipeline</p>
+    <p style="margin-top: 0.35rem; color: #64748b;">Powered by Apache Hadoop, Apache Pig, MapReduce, Apache Hive, Apache Spark, and Spark MLlib</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

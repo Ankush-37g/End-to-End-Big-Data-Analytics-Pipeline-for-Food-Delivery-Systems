@@ -1,0 +1,21 @@
+# Food Delivery Big Data Analytics - Dependencies
+# Python 3.8+
+
+# Data Generation
+faker>=24.0.0
+
+# Data Analysis & Science
+pandas>=2.0.0
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Apache Spark & MLlib (Local execution or cluster client)
+pyspark>=3.4.0
+
+# Optional: Jupyter Notebook for interactive exploration & demo
+jupyter>=1.0.0
+notebook>=7.0.0

@@ -1,0 +1,104 @@
+# ==============================================================================
+# Byte-compiled / optimized / DLL files
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# ==============================================================================
+# Virtual Environments & Packages
+# ==============================================================================
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ==============================================================================
+# Environment Variables & Secrets
+# ==============================================================================
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ==============================================================================
+# Jupyter & Notebook Checkpoints
+# ==============================================================================
+.ipynb_checkpoints
+
+# ==============================================================================
+# Big Data / Large Datasets
+# ==============================================================================
+# Ignore raw & heavy CSV datasets (GitHub 100MB limit / repo bloat)
+data/*.csv
+data/**/*.csv
+# Keep sample datasets for clone & test
+!data/sample/
+!data/sample/**
+
+# Binary Big Data formats & outputs
+*.parquet
+*.avro
+*.orc
+data/output/
+data/test_datasets/*.csv
+
+# ==============================================================================
+# Hadoop / Hive / Spark / MLlib Runtime Artifacts
+# ==============================================================================
+metastore_db/
+derby.log
+spark-warehouse/
+.sparkStaging/
+checkpoint/
+checkpoints/
+*.class
+*.jar
+!lib/*.jar
+
+# ==============================================================================
+# Logs & Temporary Files
+# ==============================================================================
+logs/
+*.log
+scratch/
+tmp/
+temp/
+
+# ==============================================================================
+# Web & Node (if applicable)
+# ==============================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==============================================================================
+# IDE & Operating System
+# ==============================================================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
