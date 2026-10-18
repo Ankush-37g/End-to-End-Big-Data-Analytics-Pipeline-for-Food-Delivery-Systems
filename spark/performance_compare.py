@@ -4,6 +4,7 @@ Phase 5: Compare MapReduce vs Hive vs Spark execution times
 
 Run: spark-submit spark/performance_compare.py
 
+
 This script runs the same 3 queries across Spark and records timing,
 to be compared with MapReduce and Hive timings recorded separately.
 """
